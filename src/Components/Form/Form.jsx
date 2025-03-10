@@ -1,4 +1,7 @@
 import { useState } from "react";
+import TextInput from "../TextInput";
+import TextareaInput from "../TextareaInput";
+import FileInput from "../FileInput";
 import handleUserInfoChange from "../../handlers/handleUserInfoChange";
 import handleFileChange from "../../handlers/handleFileChange";
 import handleMandatoryUrlChange from "../../handlers/handleMandatoryUrlChange";
@@ -15,83 +18,75 @@ const Form = () => {
 
     return (
         <form onSubmit={(e) => handleSubmit({ e, userInfo, files, mandatoryUrls, socialAccounts, setErrors })}>
-            <label>Username *</label>
-            <input
-                type="text"
+            <TextInput
+                label="Username *"
                 placeholder="Enter your username"
                 value={userInfo.username}
                 onChange={(e) => handleUserInfoChange({ field: "username", value: e.target.value, setUserInfo, setErrors })}
+                error={errors.username}
             />
-            <span>{errors.username}</span>
 
-            <label>Bio (150-200 chars) *</label>
-            <textarea
+            <TextareaInput
+                label="Bio (150-200 chars) *"
                 placeholder="Write something about yourself"
                 value={userInfo.bio}
                 onChange={(e) => handleUserInfoChange({ field: "bio", value: e.target.value, setUserInfo, setErrors })}
+                error={errors.bio}
             />
-            <span>{errors.bio}</span>
 
-            <label>Portfolio Link</label>
-            <input
+            <TextInput
+                label="Portfolio Link"
                 type="url"
                 placeholder="https://your-portfolio.com"
                 value={userInfo.portfolio}
                 onChange={(e) => handleUserInfoChange({ field: "portfolio", value: e.target.value, setUserInfo, setErrors })}
+                error={errors.portfolio}
             />
-            <span>{errors.portfolio}</span>
 
-            <label>Resume (PDF Only)</label>
-            <div className="file-input-wrapper">
-                <input
-                    type="file"
-                    accept=".pdf"
-                    onChange={(e) => handleFileChange({ field: "resume", file: e.target.files[0], setFiles, setErrors })}
-                />
-            </div>
-            <span>{errors.resume}</span>
+            <FileInput
+                label="Resume (PDF Only)"
+                accept=".pdf"
+                onChange={(e) => handleFileChange({ field: "resume", file: e.target.files[0], setFiles, setErrors })}
+                error={errors.resume}
+            />
 
-            <label>Profile Picture (Image Only)</label>
-            <div className="file-input-wrapper">
-                <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => handleFileChange({ field: "profilePic", file: e.target.files[0], setFiles, setErrors })}
-                />
-            </div>
-            <span>{errors.profilePic}</span>
+            <FileInput
+                label="Profile Picture (Image Only)"
+                accept="image/*"
+                onChange={(e) => handleFileChange({ field: "profilePic", file: e.target.files[0], setFiles, setErrors })}
+                error={errors.profilePic}
+            />
 
-            <label>LinkedIn Profile *</label>
-            <input
+            <TextInput
+                label="LinkedIn Profile *"
                 type="url"
                 placeholder="https://linkedin.com/in/your-profile"
                 value={mandatoryUrls.linkedin}
                 onChange={(e) => handleMandatoryUrlChange({ field: "linkedin", value: e.target.value, setMandatoryUrls, setErrors })}
+                error={errors.linkedin}
             />
-            <span>{errors.linkedin}</span>
 
-            <label>LeetCode Profile *</label>
-            <input
+            <TextInput
+                label="LeetCode Profile *"
                 type="url"
                 placeholder="https://leetcode.com/your-profile"
                 value={mandatoryUrls.leetcode}
                 onChange={(e) => handleMandatoryUrlChange({ field: "leetcode", value: e.target.value, setMandatoryUrls, setErrors })}
+                error={errors.leetcode}
             />
-            <span>{errors.leetcode}</span>
 
             <label>Social Media Links</label>
             <div className="social-accounts">
                 {["behance", "dribble", "hackerrank", "insta", "x", "reddit", "hackerearth", "codechef", "gfg"].map((platform) => (
-                    <div key={platform}>
-                        <label>{platform.charAt(0).toUpperCase() + platform.slice(1)}</label>
-                        <input
-                            type="url"
-                            placeholder={`${platform.charAt(0).toUpperCase() + platform.slice(1)} Profile Link`}
-                            value={socialAccounts[platform] || ""}
-                            onChange={(e) => handleSocialAccountsChange({ field: platform, value: e.target.value, setSocialAccounts, setErrors })}
-                        />
-                        <span>{errors[platform]}</span>
-                    </div>
+                    <TextInput
+                        key={platform}
+                        label={platform.charAt(0).toUpperCase() + platform.slice(1)}
+                        type="url"
+                        placeholder={`${platform.charAt(0).toUpperCase() + platform.slice(1)} Profile Link`}
+                        value={socialAccounts[platform] || ""}
+                        onChange={(e) => handleSocialAccountsChange({ field: platform, value: e.target.value, setSocialAccounts, setErrors })}
+                        error={errors[platform]}
+                    />
                 ))}
             </div>
 
